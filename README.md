@@ -89,4 +89,6 @@ Plantillas listas para copiar en [`guiones/`](guiones/).
 - [x] Escribir los guiones de los primeros 5 videos cortos en [`guiones/cortos/`](guiones/cortos/).
 - [ ] Leer en voz alta y ajustar los guiones a mi forma de hablar; confirmar datos del autor y agregar link de afiliado.
 - [ ] Grabar y publicar el resumen de *Los cuatro acuerdos* y los 5 cortos.
-- [ ] Siguiente resumen: *El hombre en busca de sentido* (Viktor Frankl).
+- [x] Segundo resumen: [`guiones/resumenes/el-hombre-en-busca-de-sentido.md`](guiones/resumenes/el-hombre-en-busca-de-sentido.md).
+- [ ] Armar lista de líneas de ayuda en salud mental por país para las descripciones.
+- [ ] Siguiente resumen: *El poder del ahora* (Eckhart Tolle).
