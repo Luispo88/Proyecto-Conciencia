@@ -91,4 +91,5 @@ Plantillas listas para copiar en [`guiones/`](guiones/).
 - [ ] Grabar y publicar el resumen de *Los cuatro acuerdos* y los 5 cortos.
 - [x] Segundo resumen: [`guiones/resumenes/el-hombre-en-busca-de-sentido.md`](guiones/resumenes/el-hombre-en-busca-de-sentido.md).
 - [ ] Armar lista de líneas de ayuda en salud mental por país para las descripciones.
-- [ ] Siguiente resumen: *El poder del ahora* (Eckhart Tolle).
+- [x] Tercer resumen: [`guiones/resumenes/el-poder-del-ahora.md`](guiones/resumenes/el-poder-del-ahora.md).
+- [ ] Siguiente resumen: *Pensar rápido, pensar despacio* (Daniel Kahneman).
