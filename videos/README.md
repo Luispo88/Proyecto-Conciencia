@@ -6,7 +6,7 @@
 |---|---|---|
 | **Con tu voz** | `--audio voz.m4a` | Usa tu grabación, con subtítulos sincronizados. Es lo que mejor rinde y lo más seguro para monetizar. |
 | **Sin voz** | `--sin-voz` | Video para leer: frase grande + texto completo debajo, sin audio. Agregá música al publicar, desde la biblioteca de TikTok/Instagram/YouTube. |
-| **Voz artificial** | `--voz-ia` | Narra con una voz sintética (Piper, se genera en la computadora, gratis). Calidad básica y acento de España. `--velocidad 1.1` la hace un poco más lenta. |
+| **Voz artificial** | `--voz-ia --voz alex` | Narra con una voz sintética en **español latinoamericano** (Kokoro, se genera en la computadora, gratis). Voces: `alex` (masculina) y `dora` (femenina). `--velocidad 1.1` la hace un poco más lenta. La primera vez descarga el modelo (~120 MB) y necesita `pip install kokoro-onnx soundfile`. |
 
 > **Si usás voz artificial:** al publicar en TikTok activá la etiqueta de "contenido generado por IA" (Más opciones → Contenido generado por IA). En YouTube, los videos con voz sintética y solo texto pueden considerarse contenido poco original al pedir la monetización; para el canal largo conviene tu voz.
 

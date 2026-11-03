@@ -11,7 +11,8 @@ Uso:
 Sin opciones genera una vista previa muda con tiempos estimados.
 --sin-voz arma un video para leer (frase grande + texto completo debajo),
 sin audio: la música se agrega al publicar en TikTok/Instagram/YouTube.
---voz-ia narra las escenas con una voz sintética (Piper, se ejecuta local).
+--voz-ia narra las escenas con una voz sintética en español latinoamericano
+(Kokoro, se ejecuta local). --voz alex | dora.
 Con --audio limpia y normaliza la voz, detecta las pausas largas entre
 escenas para sincronizar el texto y arma el video final.
 
@@ -183,20 +184,27 @@ def tiempos_lectura(escenas):
     return cortes
 
 
-VOZ_IA_URL = "https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-es-carlfm-x-low.tar.gz"
-VOZ_IA_MODELO = AQUI / "voces" / "es-carlfm-x-low.onnx"
+KOKORO_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/"
+KOKORO_DIR = AQUI / "voces" / "kokoro"
+KOKORO_ARCHIVOS = ("kokoro-v1.0.int8.onnx", "voices-v1.0.bin")
+VOCES = {"alex": "em_alex", "dora": "ef_dora"}
 
 
-def sintetizar(escenas, carpeta, modelo=None, pausa=0.45, velocidad=1.0):
-    """Narra cada escena con Piper y devuelve (wav, bloques)."""
-    modelo = Path(modelo) if modelo else VOZ_IA_MODELO
-    if not modelo.exists():
-        print("Descargando la voz sintética…")
-        modelo.parent.mkdir(parents=True, exist_ok=True)
-        tar = modelo.parent / "voz.tar.gz"
-        subprocess.run(["curl", "-sSfL", "-o", str(tar), VOZ_IA_URL], check=True)
-        subprocess.run(["tar", "xzf", str(tar), "-C", str(modelo.parent)], check=True)
-        tar.unlink()
+def sintetizar(escenas, carpeta, voz="alex", pausa=0.45, velocidad=1.0):
+    """Narra cada escena con Kokoro (español latinoamericano) y devuelve (wav, bloques)."""
+    try:
+        from kokoro_onnx import Kokoro
+        import soundfile as sf
+    except ImportError:
+        sys.exit("Falta instalar la voz: pip install kokoro-onnx soundfile")
+    KOKORO_DIR.mkdir(parents=True, exist_ok=True)
+    for nombre in KOKORO_ARCHIVOS:
+        destino = KOKORO_DIR / nombre
+        if not destino.exists():
+            print(f"Descargando {nombre}…")
+            subprocess.run(["curl", "-sSfL", "-o", str(destino), KOKORO_URL + nombre], check=True)
+    k = Kokoro(str(KOKORO_DIR / KOKORO_ARCHIVOS[0]), str(KOKORO_DIR / KOKORO_ARCHIVOS[1]))
+
     tmp = carpeta / ".voz-ia"
     tmp.mkdir(exist_ok=True)
     partes, bloques, t = [], [], 0.0
@@ -205,10 +213,8 @@ def sintetizar(escenas, carpeta, modelo=None, pausa=0.45, velocidad=1.0):
                     "-t", str(pausa), str(silencio)], check=True)
     for i, e in enumerate(escenas):
         crudo, wav = tmp / f"{i}-crudo.wav", tmp / f"{i}.wav"
-        texto = e["voz"].replace("…", ",")
-        subprocess.run([sys.executable, "-m", "piper", "-m", str(modelo), "-f", str(crudo),
-                        "--length-scale", str(velocidad)],
-                       input=texto, text=True, check=True, capture_output=True)
+        muestras, sr = k.create(e["voz"], voice=VOCES.get(voz, voz), speed=1 / velocidad, lang="es-419")
+        sf.write(str(crudo), muestras, sr)
         subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(crudo), "-ar", "48000", "-ac", "1",
                         str(wav)], check=True)
         d = duracion(wav)
@@ -396,11 +402,11 @@ def con_alfa(capa, a):
 
 # ---------------------------------------------------------------- render
 def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, voz_ia=False,
-           modelo=None, velocidad=1.0):
+           voz="alex", velocidad=1.0):
     escenas_ruta = Path(escenas_ruta)
     meta, escenas = leer_escenas(escenas_ruta)
     carpeta = escenas_ruta.parent
-    nombre = ("video-sin-voz.mp4" if sin_voz else "video-voz-ia.mp4" if voz_ia
+    nombre = ("video-sin-voz.mp4" if sin_voz else f"video-voz-{voz}.mp4" if voz_ia
               else "video.mp4" if audio else "vista-previa.mp4")
     salida = Path(salida) if salida else carpeta / nombre
 
@@ -409,7 +415,7 @@ def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, vo
         bloques, modo = tiempos_lectura(escenas), f"lectura ({LECTURA_WPS} palabras/s)"
     elif voz_ia:
         print("Generando la narración con voz sintética…")
-        voz_limpia, bloques = sintetizar(escenas, carpeta, modelo, velocidad=velocidad)
+        voz_limpia, bloques = sintetizar(escenas, carpeta, voz, velocidad=velocidad)
         modo = "voz sintética (tiempos exactos)"
     elif audio:
         voz_limpia = carpeta / "voz-limpia.wav"
@@ -507,14 +513,15 @@ def main():
     p.add_argument("--salida", help="ruta del mp4 (por defecto, junto a escenas.txt)")
     modo = p.add_mutually_exclusive_group()
     modo.add_argument("--sin-voz", action="store_true", help="video para leer, sin narración")
-    modo.add_argument("--voz-ia", action="store_true", help="narración con voz sintética (Piper)")
-    p.add_argument("--modelo", help="modelo de voz Piper (.onnx) para --voz-ia")
+    modo.add_argument("--voz-ia", action="store_true", help="narración con voz sintética en español latino (Kokoro)")
+    p.add_argument("--voz", default="alex", choices=sorted(VOCES),
+                   help="con --voz-ia: alex (masculina) o dora (femenina)")
     p.add_argument("--velocidad", type=float, default=1.0,
                    help="con --voz-ia: más de 1 habla más lento, menos de 1 más rápido")
     a = p.parse_args()
     if a.audio and (a.sin_voz or a.voz_ia):
         p.error("--audio no se combina con --sin-voz ni con --voz-ia")
-    render(a.escenas, a.audio, a.musica, a.salida, a.sin_voz, a.voz_ia, a.modelo, a.velocidad)
+    render(a.escenas, a.audio, a.musica, a.salida, a.sin_voz, a.voz_ia, a.voz, a.velocidad)
 
 
 if __name__ == "__main__":
