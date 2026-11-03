@@ -85,5 +85,8 @@ Plantillas listas para copiar en [`guiones/`](guiones/).
 ## Próximos pasos
 
 - [ ] Verificar que el nombre esté libre en TikTok, YouTube e Instagram y crear las cuentas.
-- [ ] Escribir el guion del primer resumen de libro (*Los cuatro acuerdos*) en `guiones/resumenes/`.
-- [ ] Escribir los guiones de los primeros 5 videos cortos en `guiones/cortos/`.
+- [x] Escribir el guion del primer resumen de libro: [`guiones/resumenes/los-cuatro-acuerdos.md`](guiones/resumenes/los-cuatro-acuerdos.md).
+- [x] Escribir los guiones de los primeros 5 videos cortos en [`guiones/cortos/`](guiones/cortos/).
+- [ ] Leer en voz alta y ajustar los guiones a mi forma de hablar; confirmar datos del autor y agregar link de afiliado.
+- [ ] Grabar y publicar el resumen de *Los cuatro acuerdos* y los 5 cortos.
+- [ ] Siguiente resumen: *El hombre en busca de sentido* (Viktor Frankl).
