@@ -76,10 +76,14 @@ Plantillas listas para copiar en [`guiones/`](guiones/).
 .
 ├── README.md                          # Este documento: resumen del proyecto
 ├── plan-el-observador-interior.html   # Plan visual (abrir en el navegador)
-└── guiones/
-    ├── README.md                      # Plantillas de guion
-    ├── cortos/                        # Guiones de videos cortos (30–60 s)
-    └── resumenes/                     # Guiones de resúmenes de libros (15–30 min)
+├── guiones/
+│   ├── README.md                      # Plantillas de guion
+│   ├── cortos/                        # Guiones de videos cortos (30–60 s)
+│   └── resumenes/                     # Guiones de resúmenes de libros (15–30 min)
+└── videos/
+    ├── README.md                      # Cómo grabar la voz y generar los videos
+    ├── hacer_video.py                 # Genera el video vertical a partir de tu voz
+    └── cortos/                        # Escenas de cada corto, listas para grabar
 ```
 
 ## Próximos pasos
@@ -88,7 +92,9 @@ Plantillas listas para copiar en [`guiones/`](guiones/).
 - [x] Escribir el guion del primer resumen de libro: [`guiones/resumenes/los-cuatro-acuerdos.md`](guiones/resumenes/los-cuatro-acuerdos.md).
 - [x] Escribir los guiones de los primeros 5 videos cortos en [`guiones/cortos/`](guiones/cortos/).
 - [ ] Leer en voz alta y ajustar los guiones a mi forma de hablar; confirmar datos del autor y agregar link de afiliado.
-- [ ] Grabar y publicar el resumen de *Los cuatro acuerdos* y los 5 cortos.
+- [x] Herramienta de video (formato sin cara, con mi voz) y escenas de los 5 primeros cortos: ver [`videos/README.md`](videos/README.md).
+- [ ] Grabar la voz de los 5 cortos y generar los videos.
+- [ ] Grabar y publicar el resumen de *Los cuatro acuerdos*.
 - [x] Segundo resumen: [`guiones/resumenes/el-hombre-en-busca-de-sentido.md`](guiones/resumenes/el-hombre-en-busca-de-sentido.md).
 - [ ] Armar lista de líneas de ayuda en salud mental por país para las descripciones.
 - [x] Tercer resumen: [`guiones/resumenes/el-poder-del-ahora.md`](guiones/resumenes/el-poder-del-ahora.md).

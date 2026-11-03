@@ -1,0 +1,42 @@
+# Corto 02 · Guion: guiones/cortos/02-que-es-la-inteligencia-emocional.md
+# Al grabar: leé solo las líneas "voz", en orden, y hacé una pausa de 1 segundo entre escenas.
+
+titulo: Qué es realmente la inteligencia emocional
+pilar: Emociones
+
+[escena]
+pantalla: Inteligencia emocional *no es* ser calmado
+voz: Inteligencia emocional no es ser una persona calmada. Es otra cosa.
+
+[escena]
+pantalla: No enojarte nunca puede ser solo *reprimir*
+voz: Mucha gente cree que tener inteligencia emocional es no enojarse nunca, no llorar, mantener la compostura. Eso, muchas veces, es solo reprimir.
+
+[escena]
+pantalla: Salovey y Mayer la propusieron.
+*Goleman* la hizo famosa.
+voz: El concepto lo propusieron los psicólogos Peter Salovey y John Mayer, y lo popularizó Daniel Goleman con su libro de 1995. Goleman la describe en cinco habilidades.
+
+[escena]
+pantalla: *1.* Darte cuenta de lo que sentís
+*2.* Regular lo que hacés con eso
+voz: Uno: darte cuenta de lo que sentís. Dos: regular lo que hacés con eso.
+
+[escena]
+pantalla: *3.* Motivarte
+*4.* Reconocer lo que sienten otros
+*5.* Manejar tus relaciones
+voz: Tres: motivarte hacia tus metas. Cuatro: reconocer lo que sienten los demás. Y cinco: manejar bien tus relaciones.
+
+[escena]
+pantalla: Todo empieza por *darte cuenta*
+voz: Fijate en la primera: todo empieza por darte cuenta. Una persona emocionalmente inteligente puede estar furiosa. La diferencia es que sabe que está furiosa y elige qué hacer con eso.
+
+[escena]
+pantalla: Ponele *nombre* antes de reaccionar
+voz: Probá hoy algo simple: cuando sientas algo fuerte, ponele nombre antes de reaccionar.
+
+[escena]
+pantalla: ¿Cuál te cuesta más?
+*Comentá el número*
+voz: ¿Cuál de las cinco te cuesta más? Comentalo con el número.

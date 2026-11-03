@@ -1,0 +1,39 @@
+# Corto 03 · Guion: guiones/cortos/03-los-cuatro-acuerdos-en-60-segundos.md
+# Al grabar: leé solo las líneas "voz", en orden, y hacé una pausa de 1 segundo entre escenas.
+
+titulo: Los cuatro acuerdos en 60 segundos
+pilar: Libros
+
+[escena]
+pantalla: *4 reglas* que cambian tus relaciones
+voz: Cuatro reglas que cambian cómo vivís tus relaciones.
+
+[escena]
+pantalla: Los cuatro acuerdos
+*Miguel Ruiz*
+voz: Las propone Miguel Ruiz en Los cuatro acuerdos, uno de los libros de crecimiento personal más leídos de las últimas décadas.
+
+[escena]
+pantalla: *1.* Sé impecable con tus palabras
+voz: Uno: sé impecable con tus palabras. No las uses contra otros, ni contra vos. Eso incluye cómo te hablás cuando te equivocás.
+
+[escena]
+pantalla: *2.* No te tomes nada personalmente
+voz: Dos: no te tomes nada personalmente. Lo que otros dicen habla de su mundo, no de tu valor.
+
+[escena]
+pantalla: *3.* No hagas suposiciones
+voz: Tres: no hagas suposiciones. Si no sabés qué le pasa a alguien, preguntá. Y si necesitás algo, decilo: nadie adivina.
+
+[escena]
+pantalla: *4.* Hacé siempre el máximo que puedas
+voz: Cuatro: hacé siempre el máximo que puedas. Sabiendo que tu máximo cambia según el día. Cansado, tu máximo es otro, y está bien.
+
+[escena]
+pantalla: Libro espiritual.
+Ideas que la *psicología* también estudia.
+voz: Es un libro espiritual, no científico, pero varias de estas ideas la psicología también las estudia.
+
+[escena]
+pantalla: Resumen completo en *YouTube*
+voz: El resumen completo, con un ejercicio para la semana, está en mi canal de YouTube. ¿Cuál de los cuatro te cuesta más?

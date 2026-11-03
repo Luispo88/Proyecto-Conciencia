@@ -1,0 +1,37 @@
+# Corto 05 · Guion: guiones/cortos/05-tres-preguntas-cada-noche.md
+# Al grabar: leé solo las líneas "voz", en orden, y hacé una pausa de 1 segundo entre escenas.
+
+titulo: 3 preguntas para revisarte cada noche
+pilar: Autoevaluación
+
+[escena]
+pantalla: *3 preguntas* antes de dormir
+voz: Hacete estas tres preguntas antes de dormir.
+
+[escena]
+pantalla: Revisarte *no es* castigarte
+voz: Revisarte no es lo mismo que castigarte. La autoevaluación sirve cuando te mirás con honestidad, pero también con amabilidad.
+
+[escena]
+pantalla: *1.* ¿Qué hice hoy de lo que me siento bien?
+voz: Pregunta uno: ¿qué hice hoy de lo que me siento bien? Aunque sea algo chico. El cerebro tiende a recordar más lo negativo; esta pregunta equilibra.
+
+[escena]
+pantalla: *2.* ¿En qué momento reaccioné en vez de elegir?
+voz: Pregunta dos: ¿en qué momento reaccioné en vez de elegir? Sin juicio. Solo identificá el momento y qué lo disparó.
+
+[escena]
+pantalla: *3.* ¿Qué haría distinto mañana?
+voz: Pregunta tres: ¿qué haría distinto mañana? Una sola cosa, concreta.
+
+[escena]
+pantalla: Ninguna es *¿qué hice mal?*
+voz: Fijate que ninguna pregunta es qué hice mal. La idea no es juntar pruebas en tu contra, es aprender de tu día.
+
+[escena]
+pantalla: *2 minutos* por noche
+voz: Dos minutos por noche. En una semana vas a empezar a ver patrones.
+
+[escena]
+pantalla: Guardalo para *esta noche*
+voz: Guardá este video para hacerlo esta noche. Y seguime para más ejercicios como este.

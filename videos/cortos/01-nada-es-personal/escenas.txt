@@ -1,0 +1,39 @@
+# Corto 01 · Guion: guiones/cortos/01-nada-es-personal.md
+# Al grabar: leé solo las líneas "voz", en orden, y hacé una pausa de 1 segundo entre escenas.
+
+titulo: Por qué nada de lo que otros dicen es personal
+pilar: Nada es personal
+
+[escena]
+pantalla: Esa crítica *no habla de vos*
+voz: Esa crítica que te dolió hoy no habla de vos.
+
+[escena]
+pantalla: Tu cerebro la toma como un *veredicto*
+voz: Cuando alguien te critica, tu cerebro hace algo automático: cree que el comentario es un veredicto sobre quién sos.
+
+[escena]
+pantalla: Error fundamental de *atribución*
+voz: En psicología hay un nombre para esto: error fundamental de atribución.
+
+[escena]
+pantalla: Juzgamos cómo *son*.
+Olvidamos su *contexto*.
+voz: Explicamos lo que hacen los demás por cómo son, y olvidamos su contexto: si durmieron mal, si tuvieron un mal día, su historia.
+
+[escena]
+pantalla: Lo que otros dicen sale de *su mundo*
+voz: Miguel Ruiz lo dice más simple en Los cuatro acuerdos: lo que otros dicen sale de su mundo, no del tuyo.
+
+[escena]
+pantalla: Quedate con el *dato*.
+Dejá la *herida*.
+voz: Ojo: eso no significa que nada te importe. Si hay algo útil en la crítica, quedate con el dato. Lo que no hace falta que te lleves es la herida.
+
+[escena]
+pantalla: ¿Información sobre mí… o sobre *su mundo*?
+voz: La próxima vez preguntate: ¿esto es información sobre mí, o sobre cómo ve el mundo esta persona?
+
+[escena]
+pantalla: ¿Qué te tomaste *personal*?
+voz: ¿Qué comentario te tomaste personal y después te diste cuenta de que no era sobre vos? Te leo.
