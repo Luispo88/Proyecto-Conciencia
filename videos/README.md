@@ -1,6 +1,16 @@
-# Videos: formato sin cara, con tu voz
+# Videos: formato sin cara
 
-Vos grabás la voz con el celular; `hacer_video.py` arma el video vertical (1080×1920) con el texto animado, los subtítulos, la marca del canal y una barra de progreso. El mismo archivo sirve para TikTok, Shorts y Reels.
+`hacer_video.py` arma el video vertical (1080×1920) con el texto animado, la marca del canal y una barra de progreso. El mismo archivo sirve para TikTok, Shorts y Reels. Tiene tres modos:
+
+| Modo | Comando | Qué hace |
+|---|---|---|
+| **Con tu voz** | `--audio voz.m4a` | Usa tu grabación, con subtítulos sincronizados. Es lo que mejor rinde y lo más seguro para monetizar. |
+| **Sin voz** | `--sin-voz` | Video para leer: frase grande + texto completo debajo, sin audio. Agregá música al publicar, desde la biblioteca de TikTok/Instagram/YouTube. |
+| **Voz artificial** | `--voz-ia` | Narra con una voz sintética (Piper, se genera en la computadora, gratis). Calidad básica y acento de España. `--velocidad 1.1` la hace un poco más lenta. |
+
+> **Si usás voz artificial:** al publicar en TikTok activá la etiqueta de "contenido generado por IA" (Más opciones → Contenido generado por IA). En YouTube, los videos con voz sintética y solo texto pueden considerarse contenido poco original al pedir la monetización; para el canal largo conviene tu voz.
+
+Lo que sigue explica el modo con tu voz.
 
 ```
 videos/

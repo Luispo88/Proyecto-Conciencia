@@ -6,3 +6,5 @@ videos/**/portada.png
 
 __pycache__/
 .DS_Store
+videos/voces/
+videos/**/voz-ia.wav

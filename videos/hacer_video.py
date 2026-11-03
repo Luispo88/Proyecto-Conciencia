@@ -5,7 +5,13 @@ Uso:
     python3 videos/hacer_video.py videos/cortos/01-nada-es-personal/escenas.txt
     python3 videos/hacer_video.py ESCENAS --audio voz.m4a [--musica fondo.mp3]
 
-Sin --audio genera una vista previa muda con tiempos estimados.
+    python3 videos/hacer_video.py ESCENAS --sin-voz
+    python3 videos/hacer_video.py ESCENAS --voz-ia
+
+Sin opciones genera una vista previa muda con tiempos estimados.
+--sin-voz arma un video para leer (frase grande + texto completo debajo),
+sin audio: la música se agrega al publicar en TikTok/Instagram/YouTube.
+--voz-ia narra las escenas con una voz sintética (Piper, se ejecuta local).
 Con --audio limpia y normaliza la voz, detecta las pausas largas entre
 escenas para sincronizar el texto y arma el video final.
 
@@ -165,6 +171,61 @@ def tiempos(escenas, total=None, sil=None):
     return list(zip(cortes[:-1], cortes[1:])), "proporcional (no encontré todas las pausas)"
 
 
+LECTURA_WPS = 2.4   # palabras por segundo al leer en pantalla
+
+
+def tiempos_lectura(escenas):
+    cortes, t = [], 0.0
+    for e in escenas:
+        dur = max(3.5, palabras(e["voz"]) / LECTURA_WPS + 1.5)
+        cortes.append((t, t + dur))
+        t += dur
+    return cortes
+
+
+VOZ_IA_URL = "https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-es-carlfm-x-low.tar.gz"
+VOZ_IA_MODELO = AQUI / "voces" / "es-carlfm-x-low.onnx"
+
+
+def sintetizar(escenas, carpeta, modelo=None, pausa=0.45, velocidad=1.0):
+    """Narra cada escena con Piper y devuelve (wav, bloques)."""
+    modelo = Path(modelo) if modelo else VOZ_IA_MODELO
+    if not modelo.exists():
+        print("Descargando la voz sintética…")
+        modelo.parent.mkdir(parents=True, exist_ok=True)
+        tar = modelo.parent / "voz.tar.gz"
+        subprocess.run(["curl", "-sSfL", "-o", str(tar), VOZ_IA_URL], check=True)
+        subprocess.run(["tar", "xzf", str(tar), "-C", str(modelo.parent)], check=True)
+        tar.unlink()
+    tmp = carpeta / ".voz-ia"
+    tmp.mkdir(exist_ok=True)
+    partes, bloques, t = [], [], 0.0
+    silencio = tmp / "pausa.wav"
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=mono",
+                    "-t", str(pausa), str(silencio)], check=True)
+    for i, e in enumerate(escenas):
+        crudo, wav = tmp / f"{i}-crudo.wav", tmp / f"{i}.wav"
+        texto = e["voz"].replace("…", ",")
+        subprocess.run([sys.executable, "-m", "piper", "-m", str(modelo), "-f", str(crudo),
+                        "--length-scale", str(velocidad)],
+                       input=texto, text=True, check=True, capture_output=True)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(crudo), "-ar", "48000", "-ac", "1",
+                        str(wav)], check=True)
+        d = duracion(wav)
+        bloques.append((t, t + d + pausa))
+        partes += [wav, silencio]
+        t += d + pausa
+    lista = tmp / "lista.txt"
+    lista.write_text("".join(f"file '{p.resolve()}'\n" for p in partes))
+    salida = carpeta / "voz-ia.wav"
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lista),
+                    "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-ar", "48000", str(salida)], check=True)
+    for f in tmp.iterdir():
+        f.unlink()
+    tmp.rmdir()
+    return salida, bloques
+
+
 # ---------------------------------------------------------------- dibujo
 def fondo():
     img = Image.new("RGB", (W, H), BG)
@@ -228,18 +289,18 @@ def envolver(toks, f, ancho):
     return lineas
 
 
-def capa_principal(texto):
+def capa_principal(texto, cy=MAIN_CY, max_h=MAIN_MAX_H, tam_max=104):
     toks = tokens(texto)
-    for tam in range(104, 44, -4):
+    for tam in range(tam_max, 44, -4):
         f = fuente("display", tam)
         lineas = envolver(toks, f, TEXT_W)
         alto_l = int(tam * 1.18)
-        if len(lineas) * alto_l <= MAIN_MAX_H and all(ancho_linea(l, f) <= TEXT_W for l in lineas):
+        if len(lineas) * alto_l <= max_h and all(ancho_linea(l, f) <= TEXT_W for l in lineas):
             break
     capa = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(capa)
     esp = f.getlength(" ")
-    y = MAIN_CY - len(lineas) * alto_l / 2
+    y = cy - len(lineas) * alto_l / 2
     for l in lineas:
         x = TEXT_CX - ancho_linea(l, f) / 2
         for i, (w, r) in enumerate(l):
@@ -287,6 +348,24 @@ def capa_subtitulo(texto, f):
     return capa
 
 
+def capa_lectura(texto):
+    """Texto completo de la escena, para los videos sin voz."""
+    capa = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(capa)
+    for tam in range(46, 30, -2):
+        f = fuente("body", tam, 600)
+        lineas = envolver(tokens(texto), f, TEXT_W)
+        alto = int(tam * 1.42)
+        if len(lineas) * alto <= 330:
+            break
+    y = 1110
+    for l in lineas:
+        s = " ".join(w for w, _ in l).replace(" \x00", "")
+        d.text((TEXT_CX - f.getlength(s) / 2, y), s, font=f, fill=(205, 211, 222))
+        y += alto
+    return capa
+
+
 def capa_fija(meta):
     capa = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(capa)
@@ -316,14 +395,23 @@ def con_alfa(capa, a):
 
 
 # ---------------------------------------------------------------- render
-def render(escenas_ruta, audio=None, musica=None, salida=None):
+def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, voz_ia=False,
+           modelo=None, velocidad=1.0):
     escenas_ruta = Path(escenas_ruta)
     meta, escenas = leer_escenas(escenas_ruta)
     carpeta = escenas_ruta.parent
-    salida = Path(salida) if salida else carpeta / ("video.mp4" if audio else "vista-previa.mp4")
+    nombre = ("video-sin-voz.mp4" if sin_voz else "video-voz-ia.mp4" if voz_ia
+              else "video.mp4" if audio else "vista-previa.mp4")
+    salida = Path(salida) if salida else carpeta / nombre
 
     voz_limpia = None
-    if audio:
+    if sin_voz:
+        bloques, modo = tiempos_lectura(escenas), f"lectura ({LECTURA_WPS} palabras/s)"
+    elif voz_ia:
+        print("Generando la narración con voz sintética…")
+        voz_limpia, bloques = sintetizar(escenas, carpeta, modelo, velocidad=velocidad)
+        modo = "voz sintética (tiempos exactos)"
+    elif audio:
         voz_limpia = carpeta / "voz-limpia.wav"
         print("Limpiando y normalizando la voz…")
         limpiar_voz(audio, voz_limpia)
@@ -342,6 +430,10 @@ def render(escenas_ruta, audio=None, musica=None, salida=None):
 
     capas = []
     for (a, b), e in zip(bloques, escenas):
+        if sin_voz:
+            capas.append((a, b, capa_principal(e["pantalla"], cy=720, max_h=560, tam_max=96),
+                          [(a + 0.5, b, capa_lectura(e["voz"]))] if e["voz"] else []))
+            continue
         trozos = trozos_subtitulo(e["voz"]) if e["voz"] else []
         habla = max(b - a - 0.35, 0.5)
         pesos = [max(len(t), 1) for t in trozos]
@@ -393,7 +485,10 @@ def render(escenas_ruta, audio=None, musica=None, salida=None):
             frame.alpha_composite(principal)
         for s0, s1, sc in subs:
             if s0 <= t < s1:
-                frame.alpha_composite(sc)
+                if sin_voz and t - s0 < 0.4:
+                    frame.alpha_composite(con_alfa(sc, (t - s0) / 0.4))
+                else:
+                    frame.alpha_composite(sc)
                 break
         proc.stdin.write(frame.convert("RGB").tobytes())
     proc.stdin.close()
@@ -410,8 +505,16 @@ def main():
     p.add_argument("--audio", help="grabación de tu voz (m4a, mp3, wav…)")
     p.add_argument("--musica", help="música libre de derechos (opcional, va muy baja)")
     p.add_argument("--salida", help="ruta del mp4 (por defecto, junto a escenas.txt)")
+    modo = p.add_mutually_exclusive_group()
+    modo.add_argument("--sin-voz", action="store_true", help="video para leer, sin narración")
+    modo.add_argument("--voz-ia", action="store_true", help="narración con voz sintética (Piper)")
+    p.add_argument("--modelo", help="modelo de voz Piper (.onnx) para --voz-ia")
+    p.add_argument("--velocidad", type=float, default=1.0,
+                   help="con --voz-ia: más de 1 habla más lento, menos de 1 más rápido")
     a = p.parse_args()
-    render(a.escenas, a.audio, a.musica, a.salida)
+    if a.audio and (a.sin_voz or a.voz_ia):
+        p.error("--audio no se combina con --sin-voz ni con --voz-ia")
+    render(a.escenas, a.audio, a.musica, a.salida, a.sin_voz, a.voz_ia, a.modelo, a.velocidad)
 
 
 if __name__ == "__main__":
