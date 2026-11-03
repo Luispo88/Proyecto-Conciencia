@@ -92,4 +92,5 @@ Plantillas listas para copiar en [`guiones/`](guiones/).
 - [x] Segundo resumen: [`guiones/resumenes/el-hombre-en-busca-de-sentido.md`](guiones/resumenes/el-hombre-en-busca-de-sentido.md).
 - [ ] Armar lista de líneas de ayuda en salud mental por país para las descripciones.
 - [x] Tercer resumen: [`guiones/resumenes/el-poder-del-ahora.md`](guiones/resumenes/el-poder-del-ahora.md).
-- [ ] Siguiente resumen: *Pensar rápido, pensar despacio* (Daniel Kahneman).
+- [x] Cuarto resumen: [`guiones/resumenes/pensar-rapido-pensar-despacio.md`](guiones/resumenes/pensar-rapido-pensar-despacio.md).
+- [ ] Siguiente resumen: *Despierta* (Anthony de Mello).
