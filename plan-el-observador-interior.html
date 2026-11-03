@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plan El Observador Interior</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Mulish:wght@400;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: una columna de lectura tipo cuaderno de estudio; secciones por bandas, estantería de libros en dos columnas, ideas como lista marcable */
+:root{
+  --bg:#f2f3f5; --surface:#ffffff; --ink:#1c2230; --muted:#5d6577; --line:#d9dde5;
+  --deep:#2c4a6e; --deep-soft:#e2e9f2; --ochre:#b5772a; --ochre-soft:#f5ead9;
+  --display:"Gloock",Georgia,"Times New Roman",serif;
+  --body:"Mulish",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12151c; --surface:#1a1f29; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2b3240;
+  --deep:#8fb2dc; --deep-soft:#1f2b3c; --ochre:#e3a95f; --ochre-soft:#33281a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151c; --surface:#1a1f29; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2b3240;
+  --deep:#8fb2dc; --deep-soft:#1f2b3c; --ochre:#e3a95f; --ochre-soft:#33281a; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+header{padding-block:56px 32px;position:relative;overflow:hidden}
+header::before{content:"";position:absolute;inset:-40% -20% auto auto;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,var(--ochre-soft) 0%,transparent 70%);z-index:0;pointer-events:none}
+header>*{position:relative}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(38px,8.5vw,60px);line-height:1.04;margin:10px 0 14px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--deep)}
+.lede{font-size:18px;color:var(--muted);max-width:58ch;margin:0}
+h2{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.15;margin:0 0 6px;text-wrap:balance}
+h3{font-size:16px;font-weight:800;margin:0}
+section{padding-block:36px;border-top:1px solid var(--line)}
+.sub{color:var(--muted);margin:0 0 20px;max-width:60ch}
+.stack{display:grid;gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.box p{margin:6px 0 0}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 8px;border-radius:99px;background:var(--deep-soft);color:var(--deep)}
+.tag.ochre{background:var(--ochre-soft);color:var(--ochre)}
+.names{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.names span{font-family:var(--display);font-size:20px;padding:6px 14px;border:1px solid var(--line);border-radius:99px;background:var(--surface)}
+.names span.pick{border-color:var(--deep);color:var(--deep)}
+.bio{font-family:var(--mono);font-size:14px;line-height:1.7;background:var(--deep-soft);color:var(--ink);padding:16px;border-radius:10px;white-space:pre-line;margin-top:10px}
+.copy{margin-top:8px;font:600 13px var(--body);background:none;border:1px solid var(--line);color:var(--deep);padding:6px 12px;border-radius:8px;cursor:pointer}
+.copy:focus-visible,.filters button:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+
+.funnel{display:grid;gap:8px}
+.step{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:16px 18px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.step .n{font-family:var(--display);font-size:28px;line-height:1;color:var(--ochre);width:28px}
+.step:nth-child(2){margin-inline:4%}
+.step:nth-child(3){margin-inline:8%}
+.step p{margin:4px 0 0;color:var(--muted);font-size:15px}
+
+/* estantería */
+.shelf{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px}
+.shelf h3{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.books{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.books li{display:grid;grid-template-columns:6px 1fr;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.books li::before{content:"";border-radius:3px;background:var(--deep)}
+.shelf .spi .books li::before{background:var(--ochre)}
+.books b{display:block;font-family:var(--display);font-weight:400;font-size:18px;line-height:1.25}
+.books .a{font-size:13px;color:var(--muted)}
+.books .w{font-size:14px;margin-top:4px}
+
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.filters button{font:700 13px var(--body);padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--deep);border-color:var(--deep);color:var(--bg)}
+.progress{font-family:var(--mono);font-size:13px;color:var(--muted);margin-bottom:10px;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin-bottom:16px}
+.bar i{display:block;height:100%;width:0;background:var(--deep);transition:width .3s}
+ol.ideas{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+ol.ideas li{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+ol.ideas input{width:20px;height:20px;margin-top:2px;accent-color:var(--deep)}
+ol.ideas .t{font-weight:700}
+ol.ideas .h{color:var(--muted);font-size:15px;margin-top:2px}
+ol.ideas .h::before{content:"Gancho: ";font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ochre)}
+ol.ideas .meta{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+ol.ideas li.done{opacity:.55}
+ol.ideas li.done .t{text-decoration:line-through}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+
+.phases{display:grid;gap:12px}
+.phase{display:grid;grid-template-columns:4px 1fr;gap:16px}
+.phase .rail{border-radius:4px;background:var(--line)}
+.phase.p1 .rail{background:var(--deep)}
+.phase.p2 .rail{background:color-mix(in srgb,var(--deep) 55%,var(--ochre))}
+.phase.p3 .rail{background:var(--ochre)}
+.phase.p4 .rail{background:var(--line)}
+.phase ul{margin:8px 0 0;padding-left:18px}
+.phase li{margin:3px 0}
+.goal{font-family:var(--mono);font-size:13px;color:var(--deep);margin-top:6px}
+
+.script{display:grid;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.script div{display:grid;grid-template-columns:86px 1fr;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.script div:last-child{border-bottom:0}
+.script b{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--ochre);padding-top:2px}
+.script span{min-width:0}
+
+ul.clean{margin:0;padding-left:18px}
+ul.clean li{margin:6px 0}
+.warn{border-left:3px solid var(--ochre);background:var(--ochre-soft);padding:14px 16px;border-radius:0 10px 10px 0}
+footer{padding-block:28px 48px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Plan de contenido · TikTok + YouTube</div>
+  <h1>Entender la mente para <em>despertar la conciencia</em></h1>
+  <p class="lede">Un plan de 90 días para una cuenta sobre conciencia y crecimiento personal: emociones, comportamiento humano e inteligencia emocional, explicados con libros de psicología y espiritualidad.</p>
+</header>
+
+<section>
+  <h2>El ángulo</h2>
+  <p class="sub">Unir dos mundos que casi nunca se juntan: lo que dice la psicología sobre cómo funcionamos y lo que enseñan las tradiciones espirituales sobre cómo despertar. Cada video toma una emoción, un comportamiento o un libro y lo vuelve útil para la vida diaria.</p>
+  <div class="grid2">
+    <div class="box">
+      <span class="tag">Promesa</span>
+      <h3 style="margin-top:8px">Entenderte para dejar de reaccionar</h3>
+      <p>Comprender por qué sentís, pensás y actuás como lo hacés, y qué hacer con eso.</p>
+    </div>
+    <div class="box">
+      <span class="tag ochre">Para quién</span>
+      <h3 style="margin-top:8px">Adultos de 22 a 45 años en todo el mundo hispano</h3>
+      <p>Lectores curiosos, personas en un momento de cambio y quienes buscan sentido sin dogmas.</p>
+    </div>
+  </div>
+
+  <div class="box" style="margin-top:14px">
+    <span class="tag">Nombres posibles</span>
+    <div class="names">
+      <span class="pick">El Observador Interior</span><span>Mente Despierta</span><span>Conciencia en Proceso</span><span>Lo que Sentimos</span><span>Leer para Despertar</span>
+    </div>
+    <p style="color:var(--muted);font-size:14px;margin-top:10px">Usá el mismo nombre de usuario en TikTok, YouTube e Instagram. Verificá que esté libre en las tres antes de decidir.</p>
+  </div>
+
+  <div class="box" style="margin-top:14px">
+    <span class="tag">Bio para TikTok</span>
+    <div class="bio" id="bio">Emociones, mente y conciencia 🧠✨
+Psicología + espiritualidad en libros que transforman
+Resumen de libro nuevo cada semana ↓</div>
+    <button class="copy" id="copyBio" type="button">Copiar bio</button>
+  </div>
+</section>
+
+<section>
+  <h2>Cinco pilares de contenido</h2>
+  <p class="sub">Rotalos durante la semana para que la cuenta sea variada pero reconocible.</p>
+  <div class="grid2">
+    <div class="box"><span class="tag">P1 · Emociones</span><h3 style="margin-top:8px">Inteligencia emocional</h3><p>Qué es cada emoción, para qué sirve y cómo gestionarla sin reprimirla.</p></div>
+    <div class="box"><span class="tag">P2 · Mente</span><h3 style="margin-top:8px">Comportamiento humano</h3><p>Sesgos, patrones, proyección y por qué repetimos lo que nos hace daño.</p></div>
+    <div class="box"><span class="tag">P3 · Nada es personal</span><h3 style="margin-top:8px">Relaciones y opiniones ajenas</h3><p>Entender que lo que otros dicen habla de ellos, y cómo dejar de cargarlo.</p></div>
+    <div class="box"><span class="tag">P4 · Autoevaluación</span><h3 style="margin-top:8px">Mirarte con honestidad</h3><p>Preguntas, ejercicios y señales para revisarte sin juicio y crecer.</p></div>
+    <div class="box"><span class="tag ochre">P5 · Libros</span><h3 style="margin-top:8px">Libros que transforman</h3><p>Una idea de un libro en 60 segundos, y el resumen completo en YouTube.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>La biblioteca del canal</h2>
+  <p class="sub">Libros base para tus primeros meses. Cada uno da para un resumen largo y entre 5 y 10 videos cortos.</p>
+  <div class="shelf">
+    <div class="psi">
+      <h3>Psicología</h3>
+      <ul class="books">
+        <li><div><b>Inteligencia emocional</b><span class="a">Daniel Goleman</span><div class="w">La base del pilar de emociones: autoconciencia, autorregulación y empatía.</div></div></li>
+        <li><div><b>El hombre en busca de sentido</b><span class="a">Viktor Frankl</span><div class="w">Cómo el sentido de vida nos sostiene incluso en el sufrimiento.</div></div></li>
+        <li><div><b>Pensar rápido, pensar despacio</b><span class="a">Daniel Kahneman</span><div class="w">Los dos sistemas de la mente y los sesgos que nos engañan.</div></div></li>
+        <li><div><b>Los seis pilares de la autoestima</b><span class="a">Nathaniel Branden</span><div class="w">Prácticas concretas para construir una autoestima sana.</div></div></li>
+        <li><div><b>Comunicación no violenta</b><span class="a">Marshall B. Rosenberg</span><div class="w">Expresar lo que sentís y necesitás sin atacar ni callar.</div></div></li>
+        <li><div><b>Mindset</b><span class="a">Carol S. Dweck</span><div class="w">Mentalidad fija frente a mentalidad de crecimiento.</div></div></li>
+      </ul>
+    </div>
+    <div class="spi">
+      <h3>Espiritualidad</h3>
+      <ul class="books">
+        <li><div><b>Los cuatro acuerdos</b><span class="a">Miguel Ruiz</span><div class="w">La fuente directa de la idea de que nada es personal.</div></div></li>
+        <li><div><b>El poder del ahora</b><span class="a">Eckhart Tolle</span><div class="w">La mente, el ego y la presencia como salida del sufrimiento.</div></div></li>
+        <li><div><b>Una nueva Tierra</b><span class="a">Eckhart Tolle</span><div class="w">Cómo el ego se disfraza en las relaciones y el día a día.</div></div></li>
+        <li><div><b>Despierta</b><span class="a">Anthony de Mello</span><div class="w">Ver la realidad sin las etiquetas y apegos que nos duermen.</div></div></li>
+        <li><div><b>Siddhartha</b><span class="a">Hermann Hesse</span><div class="w">Novela sobre la búsqueda personal del conocimiento.</div></div></li>
+        <li><div><b>Cuando todo se derrumba</b><span class="a">Pema Chödrön</span><div class="w">Sostener las emociones difíciles en lugar de huir de ellas.</div></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Cómo se conectan las plataformas</h2>
+  <p class="sub">Los cortos atraen. El video largo retiene y paga. La comunidad compra.</p>
+  <div class="funnel">
+    <div class="step"><div class="n">1</div><div><h3>TikTok, Shorts y Reels</h3><p>Una idea, una emoción o un concepto de libro en 30 a 60 segundos. El mismo video va a las tres plataformas.</p></div></div>
+    <div class="step"><div class="n">2</div><div><h3>YouTube largo</h3><p>Resúmenes de libros y análisis de emociones de 15 a 30 minutos. Es el formato que acumula horas y paga por anuncios.</p></div></div>
+    <div class="step"><div class="n">3</div><div><h3>Comunidad y productos</h3><p>Club de lectura por membresía, guías de autoevaluación, cursos de inteligencia emocional.</p></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>30 ideas para el primer mes</h2>
+  <p class="sub">Marcá cada una al publicarla. El avance queda guardado en este navegador.</p>
+  <div class="filters" id="filters" role="group" aria-label="Filtrar por pilar">
+    <button type="button" data-f="all" aria-pressed="true">Todas</button>
+    <button type="button" data-f="P1" aria-pressed="false">Emociones</button>
+    <button type="button" data-f="P2" aria-pressed="false">Mente</button>
+    <button type="button" data-f="P3" aria-pressed="false">Nada es personal</button>
+    <button type="button" data-f="P4" aria-pressed="false">Autoevaluación</button>
+    <button type="button" data-f="P5" aria-pressed="false">Libros</button>
+  </div>
+  <div class="progress" id="progress">0 de 30 publicadas</div>
+  <div class="bar"><i id="barFill"></i></div>
+  <ol class="ideas" id="ideas"></ol>
+</section>
+
+<section>
+  <h2>Calendario semanal</h2>
+  <p class="sub">Grabá en bloque dos días por semana para publicar a diario sin agotarte.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Día</th><th>Cortos (TikTok, Shorts, Reels)</th><th>YouTube y otros</th></tr></thead>
+    <tbody>
+      <tr><td>Lunes</td><td>1 emoción + 1 libro</td><td>Grabación en bloque</td></tr>
+      <tr><td>Martes</td><td>1 mente + 1 nada es personal</td><td>Responder comentarios con video</td></tr>
+      <tr><td>Miércoles</td><td>1 autoevaluación + 1 emoción</td><td>Publicar resumen de libro semanal</td></tr>
+      <tr><td>Jueves</td><td>2 clips sacados del resumen</td><td>Grabación en bloque</td></tr>
+      <tr><td>Viernes</td><td>1 mente + 1 libro</td><td>Revisar estadísticas</td></tr>
+      <tr><td>Sábado</td><td>1 nada es personal</td><td>LIVE de preguntas o club de lectura (desde 1.000 seguidores)</td></tr>
+      <tr><td>Domingo</td><td>1 pregunta de autoevaluación para la semana</td><td>Elegir el libro de la próxima semana</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Fórmulas de guion</h2>
+  <p class="sub">Dos estructuras que podés reutilizar en cada video.</p>
+  <div class="stack">
+    <div>
+      <h3 style="margin-bottom:8px">Video corto · 30 a 60 segundos</h3>
+      <div class="script">
+        <div><b>0–2 s</b><span>Gancho: una pregunta incómoda o una situación que todos vivieron.</span></div>
+        <div><b>2–10 s</b><span>Nombrar la emoción o el comportamiento: "eso se llama…".</span></div>
+        <div><b>10–45 s</b><span>Por qué pasa (psicología o libro) y qué hacer con eso.</span></div>
+        <div><b>Final</b><span>Pregunta para comentar, o "el resumen completo del libro está en mi canal".</span></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px">Resumen de libro · 15 a 30 minutos</h3>
+      <div class="script">
+        <div><b>0–30 s</b><span>Qué problema de la vida real resuelve este libro.</span></div>
+        <div><b>Autor</b><span>Quién lo escribió y desde qué experiencia.</span></div>
+        <div><b>Ideas</b><span>Las 3 a 5 ideas centrales, explicadas con tus palabras y ejemplos cotidianos.</span></div>
+        <div><b>Práctica</b><span>Un ejercicio de autoevaluación para aplicar lo aprendido.</span></div>
+        <div><b>Cierre</b><span>Tu opinión honesta, para quién es el libro, y el link para comprarlo.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Ruta de monetización</h2>
+  <p class="sub">Metas realistas por fase. Los requisitos de YouTube son los oficiales vigentes.</p>
+  <div class="phases">
+    <div class="phase p1"><div class="rail"></div><div>
+      <span class="tag">Meses 1 a 3</span><h3 style="margin-top:6px">Construir audiencia</h3>
+      <ul><li>Cortos a diario y un resumen de libro por semana.</li><li>Encontrar los 3 formatos que mejor funcionan.</li><li>Crear una lista de correo con un regalo, por ejemplo una guía de autoevaluación emocional.</li></ul>
+      <div class="goal">Meta: 500 suscriptores en YouTube · 1.000 seguidores en TikTok</div>
+    </div></div>
+    <div class="phase p2"><div class="rail"></div><div>
+      <span class="tag">Meses 3 a 6</span><h3 style="margin-top:6px">Primeros ingresos</h3>
+      <ul><li>Nivel inicial del Programa de socios: 500 suscriptores, 3 videos en 90 días y 3.000 horas de reproducción.</li><li>Activar membresías y Super Thanks.</li><li>Links de afiliado de los libros que reseñás (por ejemplo, Amazon Afiliados).</li><li>LIVE semanal en TikTok con regalos.</li></ul>
+      <div class="goal">Meta: primeras comisiones por libros y apoyo de fans</div>
+    </div></div>
+    <div class="phase p3"><div class="rail"></div><div>
+      <span class="tag">Meses 6 a 12</span><h3 style="margin-top:6px">Anuncios y productos</h3>
+      <ul><li>1.000 suscriptores y 4.000 horas de reproducción para cobrar por anuncios.</li><li>Club de lectura mensual de pago.</li><li>Primer producto: curso corto de inteligencia emocional o cuaderno de autoevaluación.</li><li>Alianzas con editoriales y apps de lectura o bienestar.</li></ul>
+      <div class="goal">Meta: ingresos por anuncios + primer producto propio</div>
+    </div></div>
+    <div class="phase p4"><div class="rail"></div><div>
+      <span class="tag ochre">Más adelante</span><h3 style="margin-top:6px">Enfoque país: meditación y retiros</h3>
+      <ul><li>Con la audiencia ya formada, sumar contenido de meditación y naturaleza desde Costa Rica.</li><li>Retiros presenciales propios o en alianza con centros de bienestar.</li></ul>
+      <div class="goal">Fase opcional, cuando la comunidad lo pida</div>
+    </div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Qué medir cada semana</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Métrica</th><th>Por qué importa</th><th>Buena señal</th></tr></thead>
+    <tbody>
+      <tr><td>Retención a 3 s</td><td>Dice si el gancho funciona</td><td>Más del 65 %</td></tr>
+      <tr><td>Vista completa</td><td>El algoritmo premia videos vistos hasta el final</td><td>Más del 30 % en cortos</td></tr>
+      <tr><td>Guardados y compartidos</td><td>En este nicho, guardar vale más que un like</td><td>Que suban semana a semana</td></tr>
+      <tr><td>Horas de reproducción</td><td>Requisito para monetizar en YouTube</td><td>Unas 250 por semana para llegar a 3.000 al año</td></tr>
+      <tr><td>Clics en links de libros</td><td>Mide el potencial de ingresos por afiliados</td><td>Crecimiento constante</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Cuidados importantes</h2>
+  <div class="warn">
+    <ul class="clean">
+      <li>Resumí los libros con tus palabras y citá siempre al autor. Evitá leer páginas completas o mostrar el texto en pantalla, porque eso puede generar reclamos de derechos de autor.</li>
+      <li>No te presentes como terapeuta ni prometas curar ansiedad o depresión. Hablá de crecimiento personal y recomendá ayuda profesional cuando el tema lo pida.</li>
+      <li>Distinguí entre lo que dice la ciencia y lo que propone una tradición espiritual. Esa honestidad es tu diferencia frente a otras cuentas.</li>
+      <li>Usá música libre de derechos y no compres seguidores ni vistas.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Plan preparado en noviembre de 2026. Los requisitos de las plataformas pueden cambiar; revisalos en YouTube Studio antes de solicitar.</footer>
+</div>
+
+<script>
+const IDEAS=[
+["P3","Por qué nada de lo que otros dicen es personal","Esa crítica que te dolió hoy no habla de vos."],
+["P1","Qué es realmente la inteligencia emocional","No es ser calmado. Es otra cosa."],
+["P5","Los cuatro acuerdos en 60 segundos","Cuatro reglas que cambian cómo vivís las relaciones."],
+["P2","Proyección: cuando ves en otros lo tuyo","Lo que más te molesta de alguien puede estar en vos."],
+["P4","3 preguntas para revisarte cada noche","Hacete estas preguntas antes de dormir."],
+["P1","La ira no es mala: para qué sirve","Tu enojo te está avisando de algo."],
+["P2","El sesgo que te hace creer que siempre tenés razón","Tu cerebro busca pruebas de lo que ya pensás."],
+["P5","Lo que Viktor Frankl aprendió en el peor lugar del mundo","Le quitaron todo, menos una cosa."],
+["P3","Cómo no tomarte personal una crítica en el trabajo","Tu jefe te habló mal. Esto es lo que pasa en su cabeza."],
+["P1","Diferencia entre sentir y reaccionar","Entre lo que sentís y lo que hacés hay un espacio."],
+["P4","Señales de que estás actuando desde el ego","Si hacés esto en una discusión, es el ego."],
+["P2","Por qué repetimos relaciones que nos hacen daño","No es mala suerte. Es un patrón."],
+["P5","El poder del ahora: la idea central","Casi todo tu sufrimiento vive en el pasado o el futuro."],
+["P1","La tristeza también tiene una función","Dejar de huir de la tristeza puede cambiarte."],
+["P3","La opinión ajena es un reflejo, no un veredicto","Lo que piensan de vos es su historia, no la tuya."],
+["P2","Pensar rápido y pensar despacio","Tu mente tiene dos sistemas y uno te engaña seguido."],
+["P4","Cómo autoevaluarte sin castigarte","Revisarte no es lo mismo que criticarte."],
+["P1","La culpa sana y la culpa tóxica","No toda culpa es mala. Esta sí."],
+["P5","Despierta, de Anthony de Mello, en un minuto","La mayoría vive dormida y no lo sabe."],
+["P2","Por qué buscamos aprobación","Necesitar que te aprueben tiene una raíz."],
+["P3","Qué hacer cuando alguien te ignora","Que no te respondan no siempre es rechazo."],
+["P1","Nombrar una emoción la vuelve más manejable","Ponerle nombre a lo que sentís ya ayuda."],
+["P4","El ejercicio del observador: mirarte desde afuera","Imaginate viendo tu día como en una película."],
+["P5","Mentalidad fija vs. de crecimiento","Una frase que decís seguido revela tu mentalidad."],
+["P2","El ego en las redes sociales","Cada like le da de comer a algo en vos."],
+["P1","Empatía no es cargar el dolor de otros","Podés acompañar sin absorber."],
+["P3","Los límites también son amor","Decir no puede ser lo más sano de tu semana."],
+["P4","Tu diálogo interno: ¿cómo te hablás?","¿Le hablarías así a alguien que querés?"],
+["P5","Comunicación no violenta: la fórmula en 4 pasos","Así se dice algo difícil sin pelear."],
+["P2","Psicología y espiritualidad: dónde se encuentran","La ciencia y los sabios llegan al mismo lugar en esto."]
+];
+const NAMES={P1:"Emociones",P2:"Mente",P3:"Nada es personal",P4:"Autoevaluación",P5:"Libros"};
+let done={};try{done=JSON.parse(localStorage.getItem("obs-done")||"{}")}catch(e){done={}}
+const list=document.getElementById("ideas");
+IDEAS.forEach((d,i)=>{
+  const li=document.createElement("li");li.dataset.p=d[0];
+  const id="idea-"+i;
+  li.innerHTML=`<input type="checkbox" id="${id}" aria-label="Marcar como publicada"><label for="${id}"><div class="t">${i+1}. ${d[1]}</div><div class="h">${d[2]}</div><div class="meta"><span class="tag${d[0]==="P5"?" ochre":""}">${NAMES[d[0]]}</span></div></label>`;
+  const cb=li.querySelector("input");cb.checked=!!done[i];li.classList.toggle("done",cb.checked);
+  cb.addEventListener("change",()=>{done[i]=cb.checked;li.classList.toggle("done",cb.checked);save();upd()});
+  list.appendChild(li);
+});
+function save(){try{localStorage.setItem("obs-done",JSON.stringify(done))}catch(e){}}
+function upd(){const n=Object.values(done).filter(Boolean).length;
+  document.getElementById("progress").textContent=n+" de 30 publicadas";
+  document.getElementById("barFill").style.width=(n/30*100)+"%"}
+upd();
+document.getElementById("filters").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  document.querySelectorAll("#filters button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+  const f=b.dataset.f;list.querySelectorAll("li").forEach(li=>li.hidden=!(f==="all"||li.dataset.p===f));
+});
+document.getElementById("copyBio").addEventListener("click",async e=>{
+  const t=document.getElementById("bio").innerText;
+  try{await navigator.clipboard.writeText(t);e.target.textContent="Copiada"}
+  catch(err){const r=document.createRange();r.selectNodeContents(document.getElementById("bio"));const s=getSelection();s.removeAllRanges();s.addRange(r);e.target.textContent="Seleccionada, copiala"}
+  setTimeout(()=>e.target.textContent="Copiar bio",2000);
+});
+</script>
+</body>
+</html>
