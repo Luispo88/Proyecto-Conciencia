@@ -331,7 +331,7 @@ def trozos_subtitulo(voz, max_letras=30):
             out.append(" ".join(actual))
             actual = []
     if actual:
-        if out and len(actual) <= 2:
+        if out and len(actual) <= 2 and len(out[-1]) + len(" ".join(actual)) < 36:
             out[-1] += " " + " ".join(actual)
         else:
             out.append(" ".join(actual))
@@ -402,12 +402,14 @@ def con_alfa(capa, a):
 
 # ---------------------------------------------------------------- render
 def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, voz_ia=False,
-           voz="alex", velocidad=1.0):
+           voz="alex", velocidad=1.0, animado=False):
     escenas_ruta = Path(escenas_ruta)
     meta, escenas = leer_escenas(escenas_ruta)
     carpeta = escenas_ruta.parent
     nombre = ("video-sin-voz.mp4" if sin_voz else f"video-voz-{voz}.mp4" if voz_ia
               else "video.mp4" if audio else "vista-previa.mp4")
+    if animado:
+        nombre = nombre.replace(".mp4", "-animado.mp4")
     salida = Path(salida) if salida else carpeta / nombre
 
     voz_limpia = None
@@ -425,7 +427,13 @@ def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, vo
         bloques, modo = tiempos(escenas, total, silencios(voz_limpia))
     else:
         bloques, modo = tiempos(escenas)
-    total_video = bloques[-1][1] + TAIL
+    animador = None
+    if animado:
+        import animacion
+        total_video = bloques[-1][1] + animacion.OUTRO
+        animador = animacion.Animador(meta, escenas, bloques, total_video)
+    else:
+        total_video = bloques[-1][1] + TAIL
     print(f"Tiempos: {modo}. Duración: {total_video:.1f} s")
     for i, ((a, b), e) in enumerate(zip(bloques, escenas), 1):
         print(f"  escena {i}: {a:5.1f}–{b:5.1f} s  {e['pantalla'][:50]!r}")
@@ -451,9 +459,12 @@ def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, vo
         capas.append((a, b, capa_principal(e["pantalla"]), subs))
 
     # Portada para la miniatura
-    portada = base.copy()
-    portada.alpha_composite(capas[0][2])
-    portada.convert("RGB").save(carpeta / "portada.png")
+    if animador:
+        animador.portada().save(carpeta / "portada.png")
+    else:
+        portada = base.copy()
+        portada.alpha_composite(capas[0][2])
+        portada.convert("RGB").save(carpeta / "portada.png")
 
     cmd = ["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
            "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-"]
@@ -476,6 +487,9 @@ def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, vo
     n_frames = math.ceil(total_video * FPS)
     for i in range(n_frames):
         t = i / FPS
+        if animador:
+            proc.stdin.write(animador.frame(t).convert("RGB").tobytes())
+            continue
         frame = base.copy()
         # barra de progreso
         d = ImageDraw.Draw(frame)
@@ -518,10 +532,12 @@ def main():
                    help="con --voz-ia: alex (masculina) o dora (femenina)")
     p.add_argument("--velocidad", type=float, default=1.0,
                    help="con --voz-ia: más de 1 habla más lento, menos de 1 más rápido")
+    p.add_argument("--animado", action="store_true",
+                   help="fondo en movimiento, texto palabra por palabra, subtítulos karaoke y cierre con logo")
     a = p.parse_args()
     if a.audio and (a.sin_voz or a.voz_ia):
         p.error("--audio no se combina con --sin-voz ni con --voz-ia")
-    render(a.escenas, a.audio, a.musica, a.salida, a.sin_voz, a.voz_ia, a.voz, a.velocidad)
+    render(a.escenas, a.audio, a.musica, a.salida, a.sin_voz, a.voz_ia, a.voz, a.velocidad, a.animado)
 
 
 if __name__ == "__main__":

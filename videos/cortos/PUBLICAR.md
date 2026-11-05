@@ -1,6 +1,6 @@
 # Publicación de los primeros 5 cortos (voz de Alex)
 
-Archivo a subir en cada carpeta: `video-voz-alex.mp4` (se genera con `python3 videos/hacer_video.py <carpeta>/escenas.txt --voz-ia --voz alex`).
+Archivo a subir: el 01 ya se publicó (`video-voz-alex.mp4`). Del 02 al 05 se usa la versión animada, `video-voz-alex-animado.mp4` (se genera con `python3 videos/hacer_video.py <carpeta>/escenas.txt --voz-ia --voz alex --animado`).
 El mismo video va a TikTok, YouTube Shorts e Instagram Reels.
 
 ## Al publicar, en todas las plataformas

@@ -94,7 +94,9 @@ Plantillas listas para copiar en [`guiones/`](guiones/).
 - [ ] Leer en voz alta y ajustar los guiones a mi forma de hablar; confirmar datos del autor y agregar link de afiliado.
 - [x] Herramienta de video (formato sin cara, con mi voz) y escenas de los 5 primeros cortos: ver [`videos/README.md`](videos/README.md).
 - [x] Generar los 5 cortos con voz sintética (Alex) mientras consigo condiciones para grabar mi voz. Guía de publicación: [`videos/cortos/PUBLICAR.md`](videos/cortos/PUBLICAR.md).
-- [ ] Publicar los 5 cortos (uno por día) y anotar las métricas.
+- [x] Publicar el corto 01.
+- [x] Versión animada de los cortos 02 a 05.
+- [ ] Publicar los cortos 02 a 05 (uno por día) y anotar las métricas.
 - [ ] Más adelante: grabar con mi voz (micrófono de solapa + Adobe Podcast Enhance).
 - [ ] Grabar y publicar el resumen de *Los cuatro acuerdos*.
 - [x] Segundo resumen: [`guiones/resumenes/el-hombre-en-busca-de-sentido.md`](guiones/resumenes/el-hombre-en-busca-de-sentido.md).

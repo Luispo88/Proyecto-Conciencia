@@ -8,6 +8,8 @@
 | **Sin voz** | `--sin-voz` | Video para leer: frase grande + texto completo debajo, sin audio. Agregá música al publicar, desde la biblioteca de TikTok/Instagram/YouTube. |
 | **Voz artificial** | `--voz-ia --voz alex` | Narra con una voz sintética en **español latinoamericano** (Kokoro, se genera en la computadora, gratis). Voces: `alex` (masculina) y `dora` (femenina). `--velocidad 1.1` la hace un poco más lenta. La primera vez descarga el modelo (~120 MB) y necesita `pip install kokoro-onnx soundfile`. |
 
+Cualquier modo se puede combinar con **`--animado`**: fondo con luces en movimiento y partículas, texto que entra palabra por palabra (las palabras resaltadas con rebote y subrayado), subtítulos tipo karaoke y un cierre de 2,6 s con el logo del ojo. Ejemplo: `--voz-ia --voz alex --animado`. Genera `video-voz-alex-animado.mp4`. (El corto 01 se publicó con la versión sin animar.)
+
 > **Si usás voz artificial:** al publicar en TikTok activá la etiqueta de "contenido generado por IA" (Más opciones → Contenido generado por IA). En YouTube, los videos con voz sintética y solo texto pueden considerarse contenido poco original al pedir la monetización; para el canal largo conviene tu voz.
 
 Lo que sigue explica el modo con tu voz.
