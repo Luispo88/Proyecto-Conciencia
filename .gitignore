@@ -9,3 +9,7 @@ __pycache__/
 videos/voces/
 videos/**/voz-ia.wav
 videos/**/.voz-ia/
+remotion/node_modules/
+remotion/public/audio/
+remotion/out/
+videos/**/props-remotion.json
