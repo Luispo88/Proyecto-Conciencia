@@ -24,7 +24,7 @@ python3 videos/hacer_video.py videos/cortos/02-que-es-la-inteligencia-emocional/
 
 También funciona con tu voz: `--audio voz.m4a --remotion`.
 
-**Tiempo:** cada corto tarda varios minutos en renderizarse (Remotion dibuja cada cuadro en un navegador).
+**Tiempo:** unos 10 minutos por corto de 1 minuto en una computadora de 4 núcleos (Remotion dibuja cada cuadro en un navegador).
 
 ## Ver y ajustar las animaciones
 

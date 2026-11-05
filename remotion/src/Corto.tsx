@@ -144,20 +144,21 @@ const Fondo: React.FC<{energia: number}> = ({energia}) => {
 							width: p.r * 2,
 							height: p.r * 2,
 							borderRadius: '50%',
-							background: '#f0d2a4',
-							opacity: brillo * 0.55,
-							boxShadow: `0 0 ${p.r * 4}px rgba(240,210,164,0.6)`,
+							background: 'radial-gradient(circle, #f6dcb0 0%, #f0d2a4 45%, transparent 100%)',
+							opacity: brillo * 0.7,
 						}}
 					/>
 				);
 			})}
 			{/* grano de película */}
-			<svg width="1080" height="1920" style={{position: 'absolute', opacity: 0.07, mixBlendMode: 'overlay'}}>
-				<filter id="grano">
-					<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves={2} seed={frame % 8} />
-				</filter>
-				<rect width="100%" height="100%" filter="url(#grano)" />
-			</svg>
+			<AbsoluteFill
+				style={{
+					backgroundImage: `url(${staticFile('grano.png')})`,
+					backgroundPosition: `${random(`gx${frame % 6}`) * 512}px ${random(`gy${frame % 6}`) * 512}px`,
+					opacity: 0.06,
+					mixBlendMode: 'overlay',
+				}}
+			/>
 			{/* viñeta */}
 			<AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,0.55) 100%)'}} />
 		</AbsoluteFill>
@@ -269,7 +270,7 @@ const TextoEscena: React.FC<{escena: Escena; ultima: boolean; finEscenas: number
 						transform: `translateY(${(1 - suave) * 46}px) scale(${t.resaltada ? 0.7 + 0.3 * s : 1})`,
 					};
 					if (numero) {
-						const d = tam * 0.92;
+						const d = tam * 1.05;
 						return (
 							<span key={k} style={{...estilo, verticalAlign: 'middle', marginRight: tam * 0.22}}>
 								<span
@@ -284,7 +285,7 @@ const TextoEscena: React.FC<{escena: Escena; ultima: boolean; finEscenas: number
 										color: C.bg,
 										fontFamily: BODY,
 										fontWeight: 900,
-										fontSize: tam * 0.52,
+										fontSize: tam * 0.6,
 										transform: `rotate(${(1 - s) * -90}deg)`,
 										boxShadow: `0 0 ${30 * s}px rgba(227,169,95,0.45)`,
 									}}
