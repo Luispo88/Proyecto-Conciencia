@@ -33,13 +33,14 @@ const MONO = 'JetBrainsMono, monospace';
 const CX = 525;
 
 // ------------------------------------------------------------------ fuentes
-const useFuentes = () => {
+export const useFuentes = () => {
 	const [handle] = useState(() => delayRender('Cargando fuentes'));
 	useEffect(() => {
 		const fuentes = [
 			new FontFace('Gloock', `url(${staticFile('fuentes/Gloock-Regular.ttf')})`),
 			new FontFace('Mulish', `url(${staticFile('fuentes/Mulish-Variable.ttf')})`, {weight: '200 1000'}),
 			new FontFace('JetBrainsMono', `url(${staticFile('fuentes/JetBrainsMono-Medium.ttf')})`),
+			new FontFace('Caveat', `url(${staticFile('fuentes/Caveat-Variable.ttf')})`, {weight: '400 700'}),
 		];
 		Promise.all(fuentes.map((f) => f.load()))
 			.then((cargadas) => {
@@ -54,9 +55,9 @@ const useFuentes = () => {
 };
 
 // ------------------------------------------------------------------ texto
-type Token = {w: string; resaltada: boolean; salto?: boolean; pegada?: boolean};
+export type Token = {w: string; resaltada: boolean; salto?: boolean; pegada?: boolean};
 
-const tokenizar = (texto: string): Token[] => {
+export const tokenizar = (texto: string): Token[] => {
 	const out: Token[] = [];
 	let resaltada = false;
 	for (const parte of texto.split(/(\*|\n)/)) {

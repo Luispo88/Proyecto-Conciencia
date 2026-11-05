@@ -26,6 +26,25 @@ También funciona con tu voz: `--audio voz.m4a --remotion`.
 
 **Tiempo:** unos 10 minutos por corto de 1 minuto en una computadora de 4 núcleos (Remotion dibuja cada cuadro en un navegador).
 
+## Estilo pizarra (`--pizarra`)
+
+Un lápiz dibuja una ilustración de línea por escena mientras la voz habla, y la idea clave se escribe a mano debajo (letra Caveat). Fondo de papel crema, tinta azul oscuro y acentos ocre. Entre escenas la cámara se desplaza por la pizarra, y el cierre dibuja el ojo del logo.
+
+```bash
+python3 videos/hacer_video.py videos/cortos/04-proyeccion/escenas.txt --voz-ia --voz alex --pizarra
+```
+
+Cada escena elige su ilustración con la clave `dibujo:` en `escenas.txt`:
+
+```
+[escena]
+dibujo: espejo
+pantalla: ¿Qué me muestra esto *de mí*?
+voz: ...
+```
+
+Ilustraciones disponibles (en `src/dibujos.ts`): `senalar`, `proyector`, `sombra`, `discusion`, `balanza`, `espejo`, `comentario` y `ojo`. Una escena sin `dibujo` muestra solo el texto escrito a mano, más grande. Para un tema nuevo hace falta dibujar ilustraciones nuevas en ese archivo (son figuras simples: líneas, círculos, curvas y textos).
+
 ## Ver y ajustar las animaciones
 
 ```bash

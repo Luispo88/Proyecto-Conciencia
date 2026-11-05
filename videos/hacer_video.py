@@ -89,7 +89,7 @@ def leer_escenas(ruta):
             continue
         m = re.match(r"^(\w+)\s*:\s*(.*)$", s)
         destino = actual if actual is not None else meta
-        if m and m.group(1).lower() in ("titulo", "pilar", "pantalla", "voz", "pausa"):
+        if m and m.group(1).lower() in ("titulo", "pilar", "pantalla", "voz", "pausa", "dibujo"):
             clave = m.group(1).lower()
             destino[clave] = m.group(2)
         elif clave:
@@ -406,7 +406,7 @@ CROMO_SISTEMA = Path("/opt/pw-browsers/chromium_headless_shell-1243/chrome-headl
 CIERRE_REMOTION = 3.0
 
 
-def render_remotion(meta, escenas, bloques, audio_wav, carpeta, salida):
+def render_remotion(meta, escenas, bloques, audio_wav, carpeta, salida, composicion="Corto"):
     """Arma las props y renderiza con Remotion (remotion/)."""
     import json
     import os
@@ -435,7 +435,8 @@ def render_remotion(meta, escenas, bloques, audio_wav, carpeta, salida):
                 acum += n
             subs.append({"inicio": round(t, 3), "fin": round(t + dur, 3), "palabras": palabras_t})
             t += dur
-        datos.append({"inicio": round(a, 3), "fin": round(b, 3), "pantalla": e["pantalla"], "subtitulos": subs})
+        datos.append({"inicio": round(a, 3), "fin": round(b, 3), "pantalla": e["pantalla"],
+                      "dibujo": e.get("dibujo") or None, "subtitulos": subs})
 
     fin = bloques[-1][1]
     props = {"titulo": meta.get("titulo", ""), "pilar": meta.get("pilar", ""), "audio": audio_rel,
@@ -450,11 +451,12 @@ def render_remotion(meta, escenas, bloques, audio_wav, carpeta, salida):
     if CROMO_SISTEMA.exists() and "REMOTION_CHROME" not in env:
         env["REMOTION_CHROME"] = str(CROMO_SISTEMA)
     print("Renderizando con Remotion…")
-    subprocess.run(["npx", "remotion", "render", "src/index.ts", "Corto", str(Path(salida).resolve()),
+    subprocess.run(["npx", "remotion", "render", "src/index.ts", composicion, str(Path(salida).resolve()),
                     f"--props={ruta_props.resolve()}", "--log=warn"], cwd=REMOTION, env=env, check=True)
     # portada: un cuadro de la primera escena
-    subprocess.run(["npx", "remotion", "still", "src/index.ts", "Corto", str((carpeta / "portada.png").resolve()),
-                    f"--props={ruta_props.resolve()}", f"--frame={int(min(bloques[0][1] - 0.4, 2.5) * 30)}",
+    cuadro = int(min(bloques[0][1] - 0.4, 3.5 if composicion == "Pizarra" else 2.5) * 30)
+    subprocess.run(["npx", "remotion", "still", "src/index.ts", composicion, str((carpeta / "portada.png").resolve()),
+                    f"--props={ruta_props.resolve()}", f"--frame={cuadro}",
                     "--log=warn"], cwd=REMOTION, env=env, check=True)
     print(f"Listo: {salida}")
     return salida
@@ -462,7 +464,7 @@ def render_remotion(meta, escenas, bloques, audio_wav, carpeta, salida):
 
 # ---------------------------------------------------------------- render
 def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, voz_ia=False,
-           voz="alex", velocidad=1.0, animado=False, remotion=False):
+           voz="alex", velocidad=1.0, animado=False, remotion=False, pizarra=False):
     escenas_ruta = Path(escenas_ruta)
     meta, escenas = leer_escenas(escenas_ruta)
     carpeta = escenas_ruta.parent
@@ -470,7 +472,9 @@ def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, vo
               else "video.mp4" if audio else "vista-previa.mp4")
     if animado:
         nombre = nombre.replace(".mp4", "-animado.mp4")
-    if remotion:
+    if pizarra:
+        nombre = nombre.replace(".mp4", "-pizarra.mp4")
+    elif remotion:
         nombre = nombre.replace(".mp4", "-remotion.mp4")
     salida = Path(salida) if salida else carpeta / nombre
 
@@ -489,8 +493,9 @@ def render(escenas_ruta, audio=None, musica=None, salida=None, sin_voz=False, vo
         bloques, modo = tiempos(escenas, total, silencios(voz_limpia))
     else:
         bloques, modo = tiempos(escenas)
-    if remotion:
-        return render_remotion(meta, escenas, bloques, voz_limpia, carpeta, salida)
+    if remotion or pizarra:
+        return render_remotion(meta, escenas, bloques, voz_limpia, carpeta, salida,
+                               "Pizarra" if pizarra else "Corto")
 
     animador = None
     if animado:
@@ -601,10 +606,12 @@ def main():
                    help="fondo en movimiento, texto palabra por palabra, subtítulos karaoke y cierre con logo")
     p.add_argument("--remotion", action="store_true",
                    help="renderiza con Remotion (remotion/): animaciones más fluidas")
+    p.add_argument("--pizarra", action="store_true",
+                   help="estilo pizarra con Remotion: un lápiz dibuja una ilustración por escena (clave 'dibujo:')")
     a = p.parse_args()
     if a.audio and (a.sin_voz or a.voz_ia):
         p.error("--audio no se combina con --sin-voz ni con --voz-ia")
-    render(a.escenas, a.audio, a.musica, a.salida, a.sin_voz, a.voz_ia, a.voz, a.velocidad, a.animado, a.remotion)
+    render(a.escenas, a.audio, a.musica, a.salida, a.sin_voz, a.voz_ia, a.voz, a.velocidad, a.animado, a.remotion, a.pizarra)
 
 
 if __name__ == "__main__":

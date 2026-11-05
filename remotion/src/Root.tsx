@@ -1,6 +1,7 @@
 import React from 'react';
 import {Composition} from 'remotion';
 import {Corto} from './Corto';
+import {Pizarra} from './Pizarra';
 import type {CortoProps} from './tipos';
 
 export const FPS = 30;
@@ -41,6 +42,7 @@ const ejemplo: CortoProps = {
 };
 
 export const Root: React.FC = () => (
+	<>
 	<Composition
 		id="Corto"
 		component={Corto}
@@ -53,4 +55,17 @@ export const Root: React.FC = () => (
 			durationInFrames: Math.ceil(props.duracion * FPS),
 		})}
 	/>
+	<Composition
+		id="Pizarra"
+		component={Pizarra}
+		width={1080}
+		height={1920}
+		fps={FPS}
+		durationInFrames={Math.ceil(ejemplo.duracion * FPS)}
+		defaultProps={{...ejemplo, escenas: ejemplo.escenas.map((e, i) => ({...e, dibujo: i ? 'balanza' : 'senalar'}))}}
+		calculateMetadata={({props}) => ({
+			durationInFrames: Math.ceil(props.duracion * FPS),
+		})}
+	/>
+	</>
 );

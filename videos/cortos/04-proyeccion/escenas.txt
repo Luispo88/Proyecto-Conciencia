@@ -1,33 +1,41 @@
 # Corto 04 · Guion: guiones/cortos/04-proyeccion.md
+# Estilo pizarra: la clave 'dibujo' elige la ilustración (ver remotion/src/dibujos.ts).
 # Al grabar: leé solo las líneas "voz", en orden, y hacé una pausa de 1 segundo entre escenas.
 
 titulo: Proyección: cuando ves en otros lo tuyo
 pilar: Mente
 
 [escena]
+dibujo: senalar
 pantalla: Lo que más te molesta de alguien puede estar *en vos*
 voz: Lo que más te molesta de alguien puede estar en vos.
 
 [escena]
+dibujo: proyector
 pantalla: *Proyección*
 voz: Eso se llama proyección: atribuirle a otra persona algo tuyo que no querés ver o aceptar.
 
 [escena]
+dibujo: sombra
 pantalla: Es más fácil ver un defecto *afuera*
 voz: La idea viene del psicoanálisis. Freud la describió como un mecanismo de defensa: es más fácil ver un defecto afuera que reconocerlo adentro. Jung lo llamó la sombra: las partes de nosotros que escondemos.
 
 [escena]
+dibujo: discusion
 pantalla: ¿Te molesta que *siempre quiera tener razón*?
 voz: Un ejemplo: te irrita muchísimo un compañero que siempre quiere tener razón. Vale preguntarte con honestidad si a vos también te cuesta soltar una discusión.
 
 [escena]
+dibujo: balanza
 pantalla: *No todo* lo que te molesta es tuyo
 voz: Una aclaración: esto no significa que todo lo que te molesta sea tuyo. A veces la otra persona simplemente está actuando mal. Y la investigación científica sobre la proyección es más limitada que su fama.
 
 [escena]
+dibujo: espejo
 pantalla: ¿Qué me muestra esto *de mí*?
 voz: Por eso tomalo como una pregunta, no como una regla: cuando algo te enoja de más, preguntate qué te está mostrando de vos.
 
 [escena]
+dibujo: comentario
 pantalla: ¿Te pasó alguna vez?
 voz: ¿Te pasó alguna vez descubrir que eso que criticabas también lo hacías vos?

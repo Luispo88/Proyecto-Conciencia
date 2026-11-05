@@ -10,6 +10,7 @@ export type Escena = {
 	inicio: number;
 	fin: number;
 	pantalla: string; // *resaltado* y \n para saltos de línea
+	dibujo?: string; // ilustración para el estilo pizarra (ver dibujos.ts)
 	subtitulos: Subtitulo[];
 };
 
